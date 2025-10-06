@@ -9,7 +9,7 @@ function NavBar({ selectedIndex, setSelectedIndex, sidebarValue, sidebarFunction
     ];
 
     return (
-        <div className={"w-full h-28 bg-neutral-300 flex flex-row items-center justify-between px-6"}>
+        <div className={"w-full h-20 bg-neutral-300 flex flex-row items-center justify-between px-6"}>
             <Menu className={"text-neutral-600 cursor-pointer"} onClick={() => {
                 sidebarFunction(!sidebarValue)}
             }/>
