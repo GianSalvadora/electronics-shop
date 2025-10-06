@@ -34,30 +34,31 @@ function App() {
         exit: { opacity: 0 }
     };
     return (
-        <div className="h-dvh w-dvw flex flex-col overflow-y-hidden bg-neutral-100">
-            <NavBar   selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} sidebarValue={showSidebar} sidebarFunction={setShowSidebar}/>
-            <div ref={contentRef} className={"grow w-full overflow-y-scroll flex flex-col bg-neutral-100 relative"}>
+        <div className="h-dvh w-dvw flex flex-col bg-neutral-100">
+            <NavBar selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} sidebarValue={showSidebar} sidebarFunction={setShowSidebar}/>
+            <div ref={contentRef} className={"h-full w-full overflow-y-hidden flex flex-col bg-neutral-100 relative"}>
                 <AnimatePresence>
                     {showSidebar && (
                         <>
-                        <motion.div className={"fixed h-full w-full bg-neutral-600/80 z-20"}
-                                    variants={overlayVariants}
-                                    initial="hidden"
-                                    animate="visible"
-                                    exit="exit">
+                            <motion.div className={"absolute inset-0 h-full w-full bg-neutral-600/80 z-20"}
+                                        variants={overlayVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        onClick={() => setShowSidebar(false)}>
 
-                        </motion.div>
+                            </motion.div>
 
-                        <motion.div
-                            className={"fixed h-full w-full overflow-y-scroll flex flex-row z-30"}
-                            variants={sidebarVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            transition={{ duration: 0.3 }}
-                        >
-                            <SideBar />
-                        </motion.div>
+                            <motion.div
+                                className={"absolute h-full w-full z-30"}
+                                variants={sidebarVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                                transition={{ duration: 0.3 }}
+                            >
+                                <SideBar />
+                            </motion.div>
                         </>
                     )}
                 </AnimatePresence>
@@ -80,10 +81,21 @@ function App() {
                         {titleText[selectedIndex]}
                     </motion.p>
                 </AnimatePresence>
-                <div className={"w-full h-fit gap-y-6 grid grid-cols-2 place-items-center mb-6"}>
-                    {Array.from({ length: 9 }, (_, index) => (
-                        <ShopItem key={index} seed={`item-${index}`} />
-                    ))}
+                <div className={"overflow-y-scroll"}>
+                    <div className={"w-full h-fit gap-4 px-4 grid grid-cols-2 mb-6 "}>
+                        {Array.from({ length: 20 }, (_, index) => {
+                            const hasDiscount = Math.random() > 0.8;
+                            const discount = hasDiscount ? (Math.random() * 0.2 + 0.1).toFixed(1) : null;
+
+                            return (
+                                <ShopItem
+                                    key={index}
+                                    discount={discount}
+                                    seed={`item-${index}`}
+                                />
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </div>
